@@ -1,0 +1,420 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3552B65C213D5CDA00B5BFF6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3552B65B213D5CDA00B5BFF6 /* AppDelegate.swift */; };
+		3552B65E213D5CDA00B5BFF6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3552B65D213D5CDA00B5BFF6 /* ViewController.swift */; };
+		3552B660213D5CDC00B5BFF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3552B65F213D5CDC00B5BFF6 /* Assets.xcassets */; };
+		3552B663213D5CDC00B5BFF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3552B661213D5CDC00B5BFF6 /* Main.storyboard */; };
+		3594558A213D7DF90064DB28 /* AddCompanyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35945589213D7DF90064DB28 /* AddCompanyController.swift */; };
+		359455E22147FA560064DB28 /* CompanyTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455E12147FA560064DB28 /* CompanyTableView.swift */; };
+		359455E62147FBDB0064DB28 /* CompanyDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455E52147FBDB0064DB28 /* CompanyDS.swift */; };
+		359455EA214988190064DB28 /* CompanyStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455E9214988190064DB28 /* CompanyStruct.swift */; };
+		359455EC214D21980064DB28 /* ContactTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455EB214D21980064DB28 /* ContactTableView.swift */; };
+		359455EE214D48FB0064DB28 /* ContactStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455ED214D48FB0064DB28 /* ContactStruct.swift */; };
+		359455F0214D49C30064DB28 /* ContactDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455EF214D49C30064DB28 /* ContactDS.swift */; };
+		359455F2214D5CD50064DB28 /* AddContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455F1214D5CD50064DB28 /* AddContactController.swift */; };
+		359455F42152B5260064DB28 /* AddOpportunityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455F32152B5260064DB28 /* AddOpportunityController.swift */; };
+		359455F62152BC560064DB28 /* OpportunityStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455F52152BC560064DB28 /* OpportunityStruct.swift */; };
+		359455F82152BD1B0064DB28 /* OpportunityDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455F72152BD1B0064DB28 /* OpportunityDS.swift */; };
+		359455FA2152D1EB0064DB28 /* ActionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455F92152D1EB0064DB28 /* ActionTableView.swift */; };
+		359455FC2152D28A0064DB28 /* AddAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455FB2152D28A0064DB28 /* AddAction.swift */; };
+		359455FE2152D9810064DB28 /* ActionStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359455FD2152D9810064DB28 /* ActionStruct.swift */; };
+		3594561C2153D1B70064DB28 /* ActionDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594561B2153D1B70064DB28 /* ActionDS.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3552B658213D5CDA00B5BFF6 /* GreenStreetCRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GreenStreetCRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3552B65B213D5CDA00B5BFF6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3552B65D213D5CDA00B5BFF6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3552B65F213D5CDC00B5BFF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3552B662213D5CDC00B5BFF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3552B664213D5CDC00B5BFF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3552B665213D5CDC00B5BFF6 /* GreenStreetCRM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GreenStreetCRM.entitlements; sourceTree = "<group>"; };
+		35945589213D7DF90064DB28 /* AddCompanyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCompanyController.swift; sourceTree = "<group>"; };
+		359455E12147FA560064DB28 /* CompanyTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyTableView.swift; sourceTree = "<group>"; };
+		359455E52147FBDB0064DB28 /* CompanyDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyDS.swift; sourceTree = "<group>"; };
+		359455E9214988190064DB28 /* CompanyStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyStruct.swift; sourceTree = "<group>"; };
+		359455EB214D21980064DB28 /* ContactTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableView.swift; sourceTree = "<group>"; };
+		359455ED214D48FB0064DB28 /* ContactStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactStruct.swift; sourceTree = "<group>"; };
+		359455EF214D49C30064DB28 /* ContactDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDS.swift; sourceTree = "<group>"; };
+		359455F1214D5CD50064DB28 /* AddContactController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactController.swift; sourceTree = "<group>"; };
+		359455F32152B5260064DB28 /* AddOpportunityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOpportunityController.swift; sourceTree = "<group>"; };
+		359455F52152BC560064DB28 /* OpportunityStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpportunityStruct.swift; sourceTree = "<group>"; };
+		359455F72152BD1B0064DB28 /* OpportunityDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpportunityDS.swift; sourceTree = "<group>"; };
+		359455F92152D1EB0064DB28 /* ActionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionTableView.swift; sourceTree = "<group>"; };
+		359455FB2152D28A0064DB28 /* AddAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAction.swift; sourceTree = "<group>"; };
+		359455FD2152D9810064DB28 /* ActionStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStruct.swift; sourceTree = "<group>"; };
+		3594561B2153D1B70064DB28 /* ActionDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionDS.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3552B655213D5CDA00B5BFF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3552B64F213D5CDA00B5BFF6 = {
+			isa = PBXGroup;
+			children = (
+				3552B65A213D5CDA00B5BFF6 /* GreenStreetCRM */,
+				3552B659213D5CDA00B5BFF6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3552B659213D5CDA00B5BFF6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3552B658213D5CDA00B5BFF6 /* GreenStreetCRM.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3552B65A213D5CDA00B5BFF6 /* GreenStreetCRM */ = {
+			isa = PBXGroup;
+			children = (
+				3552B65B213D5CDA00B5BFF6 /* AppDelegate.swift */,
+				359455E8214987D80064DB28 /* Structs */,
+				359455E72147FBE30064DB28 /* Data Sources */,
+				359455E42147FB130064DB28 /* Aux Views */,
+				359455E32147FA990064DB28 /* View Controllers */,
+				3552B65F213D5CDC00B5BFF6 /* Assets.xcassets */,
+				3552B661213D5CDC00B5BFF6 /* Main.storyboard */,
+				3552B664213D5CDC00B5BFF6 /* Info.plist */,
+				3552B665213D5CDC00B5BFF6 /* GreenStreetCRM.entitlements */,
+			);
+			path = GreenStreetCRM;
+			sourceTree = "<group>";
+		};
+		359455E32147FA990064DB28 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3552B65D213D5CDA00B5BFF6 /* ViewController.swift */,
+				359455E12147FA560064DB28 /* CompanyTableView.swift */,
+				359455EB214D21980064DB28 /* ContactTableView.swift */,
+				359455F92152D1EB0064DB28 /* ActionTableView.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		359455E42147FB130064DB28 /* Aux Views */ = {
+			isa = PBXGroup;
+			children = (
+				35945589213D7DF90064DB28 /* AddCompanyController.swift */,
+				359455F1214D5CD50064DB28 /* AddContactController.swift */,
+				359455F32152B5260064DB28 /* AddOpportunityController.swift */,
+				359455FB2152D28A0064DB28 /* AddAction.swift */,
+			);
+			path = "Aux Views";
+			sourceTree = "<group>";
+		};
+		359455E72147FBE30064DB28 /* Data Sources */ = {
+			isa = PBXGroup;
+			children = (
+				359455E52147FBDB0064DB28 /* CompanyDS.swift */,
+				359455EF214D49C30064DB28 /* ContactDS.swift */,
+				359455F72152BD1B0064DB28 /* OpportunityDS.swift */,
+				3594561B2153D1B70064DB28 /* ActionDS.swift */,
+			);
+			path = "Data Sources";
+			sourceTree = "<group>";
+		};
+		359455E8214987D80064DB28 /* Structs */ = {
+			isa = PBXGroup;
+			children = (
+				359455E9214988190064DB28 /* CompanyStruct.swift */,
+				359455ED214D48FB0064DB28 /* ContactStruct.swift */,
+				359455F52152BC560064DB28 /* OpportunityStruct.swift */,
+				359455FD2152D9810064DB28 /* ActionStruct.swift */,
+			);
+			path = Structs;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3552B657213D5CDA00B5BFF6 /* GreenStreetCRM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3552B668213D5CDC00B5BFF6 /* Build configuration list for PBXNativeTarget "GreenStreetCRM" */;
+			buildPhases = (
+				3552B654213D5CDA00B5BFF6 /* Sources */,
+				3552B655213D5CDA00B5BFF6 /* Frameworks */,
+				3552B656213D5CDA00B5BFF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GreenStreetCRM;
+			productName = GreenStreetCRM;
+			productReference = 3552B658213D5CDA00B5BFF6 /* GreenStreetCRM.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3552B650213D5CDA00B5BFF6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Colin Whickman";
+				TargetAttributes = {
+					3552B657213D5CDA00B5BFF6 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 3552B653213D5CDA00B5BFF6 /* Build configuration list for PBXProject "GreenStreetCRM" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3552B64F213D5CDA00B5BFF6;
+			productRefGroup = 3552B659213D5CDA00B5BFF6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3552B657213D5CDA00B5BFF6 /* GreenStreetCRM */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3552B656213D5CDA00B5BFF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3552B660213D5CDC00B5BFF6 /* Assets.xcassets in Resources */,
+				3552B663213D5CDC00B5BFF6 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3552B654213D5CDA00B5BFF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				359455FE2152D9810064DB28 /* ActionStruct.swift in Sources */,
+				359455F62152BC560064DB28 /* OpportunityStruct.swift in Sources */,
+				359455FC2152D28A0064DB28 /* AddAction.swift in Sources */,
+				3552B65E213D5CDA00B5BFF6 /* ViewController.swift in Sources */,
+				3552B65C213D5CDA00B5BFF6 /* AppDelegate.swift in Sources */,
+				359455EA214988190064DB28 /* CompanyStruct.swift in Sources */,
+				359455E62147FBDB0064DB28 /* CompanyDS.swift in Sources */,
+				359455F82152BD1B0064DB28 /* OpportunityDS.swift in Sources */,
+				3594558A213D7DF90064DB28 /* AddCompanyController.swift in Sources */,
+				359455F0214D49C30064DB28 /* ContactDS.swift in Sources */,
+				359455E22147FA560064DB28 /* CompanyTableView.swift in Sources */,
+				359455EC214D21980064DB28 /* ContactTableView.swift in Sources */,
+				359455F42152B5260064DB28 /* AddOpportunityController.swift in Sources */,
+				359455FA2152D1EB0064DB28 /* ActionTableView.swift in Sources */,
+				359455F2214D5CD50064DB28 /* AddContactController.swift in Sources */,
+				359455EE214D48FB0064DB28 /* ContactStruct.swift in Sources */,
+				3594561C2153D1B70064DB28 /* ActionDS.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3552B661213D5CDC00B5BFF6 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3552B662213D5CDC00B5BFF6 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3552B666213D5CDC00B5BFF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3552B667213D5CDC00B5BFF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		3552B669213D5CDC00B5BFF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GreenStreetCRM/GreenStreetCRM.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = GreenStreetCRM/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = london.greenstreet.GreenStreetCRM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		3552B66A213D5CDC00B5BFF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GreenStreetCRM/GreenStreetCRM.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = GreenStreetCRM/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = london.greenstreet.GreenStreetCRM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3552B653213D5CDA00B5BFF6 /* Build configuration list for PBXProject "GreenStreetCRM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3552B666213D5CDC00B5BFF6 /* Debug */,
+				3552B667213D5CDC00B5BFF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3552B668213D5CDC00B5BFF6 /* Build configuration list for PBXNativeTarget "GreenStreetCRM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3552B669213D5CDC00B5BFF6 /* Debug */,
+				3552B66A213D5CDC00B5BFF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3552B650213D5CDA00B5BFF6 /* Project object */;
+}
