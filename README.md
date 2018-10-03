@@ -5,10 +5,10 @@ Green Street CRM is a basic CRM app for Mac OS that persists data to an SQLite d
 
 It has four data entities:
 
-Company
-Contact - a child of Company
-Opportunity - a child of Company and Contact
-Action - a child of Opportunity denoting a 'to do' associated with the Opportunity
+Company, 
+Contact - a child of Company, 
+Opportunity - a child of Company and Contact, 
+Action - a child of Opportunity denoting a 'to do' associated with the Opportunity.
 
 Each entity has a tableview to view, edit, add and delete. Add and edit accomplished via an Auxilliary view.
 
