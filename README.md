@@ -20,5 +20,9 @@ Maintenance of Company and Contacts is acheived via table views called from the 
 
 The app main menu also has a View/Actions menu item that calls the Action table view for all Actions irrespective of Opportunity.
 
-The app follows the MVC design pattern
+The app follows the MVC design pattern, so it has:
 
+Data entity classes for Company, Contact, Opportunity and Action. These only provide the properties for each data entity.
+Data source classes for each of the data entities which perform all interaction with SQLite and deliver all data to the View Controllers
+View Controllers for each of the table view based views for each of the four data entities
+Auxilliary view controllers for the auxilliary views that handle add and edit for each data entity. Add and edit handled by the same view by passing in a 'mode'. All interaction to the data source classes is delegated to the view controllers
