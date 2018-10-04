@@ -36,7 +36,7 @@ class ActionDataModel {
     let getActionsForOpp = "SELECT IDACTION, ACTION.IDOPPORTUNITY, COMPANY, LISTNAME, OPPNAME, ACTIONname, ACTIONDUEdisp, ACTIONSTATUS, actiondueraw FROM Action INNER JOIN opportunity ON Opportunity.IDopportunity = Action.IDopportunity INNER JOIN company ON company.IDcompany = opportunity.Idcompany inner join contact on contact.idcontact = opportunity.idcontact where action.idopportunity = ? order by actiondueraw;"
     
      
-    var actArray: NSMutableArray = []
+    var actArray: Array<ActionStruct> = []
     
     var nxtIdAction: Int32 = 0
     
@@ -44,10 +44,8 @@ class ActionDataModel {
         
         if sqlite3_open(fileURL.path, &db) == SQLITE_OK {
             
-            print("File \(fileURL) opened OK")
         } else {
             
-            print("File \(fileURL) failed to open")
         }
        
         getAction()
@@ -63,7 +61,6 @@ class ActionDataModel {
                 nxtIdAction = ida + 1
                 
             }
-            
             
         }
         
@@ -94,10 +91,21 @@ class ActionDataModel {
                 let actionDue = String(cString: queryResultCol5!)
                 let queryResultCol6 = sqlite3_column_text(queryStatement, 7)
                 let actionStatus = String(cString: queryResultCol6!)
+                let adr = sqlite3_column_double(queryStatement, 8)
                 
+                let action = ActionStruct(idAction: 0, idOpportunity: 0, company: "", listName: "", oppName: "", actionName: "", actionDueDisp: "", actionDueRaw: 0, actionStatus: "")
                 
-                let dict = ["idAction": acid, "idOpportunity": acio, "actionCompany": company, "actionContact": listName, "actionOpp": oppName, "actionName": actionName, "actionDue": actionDue, "actionStatus": actionStatus] as [String : Any]
-                actArray.add(dict)
+                action.idAction = Int(acid)
+                action.idOpportunity = Int(acio)
+                action.company = company
+                action.listName = listName
+                action.oppName = oppName
+                action.actionName = actionName
+                action.actionDueDisp = actionDue
+                action.actionStatus = actionStatus
+                action.actionDueRaw = adr
+                
+                actArray.append(action)
             }
         }
         
@@ -109,7 +117,7 @@ class ActionDataModel {
     //Function to get all actions from db for a specified opportunity
     func getActionForOpp(opp: Int) {
         
-        actArray.removeAllObjects()
+        actArray.removeAll()
         
         var queryStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, getActionsForOpp, -1, &queryStatement, nil) == SQLITE_OK {
@@ -134,8 +142,18 @@ class ActionDataModel {
                 let actionStatus = String(cString: queryResultCol6!)
                 
                 
-                let dict = ["idAction": acid, "idOpportunity": acio, "actionCompany": company, "actionContact": listName, "actionOpp": oppName, "actionName": actionName, "actionDue": actionDue, "actionStatus": actionStatus] as [String : Any]
-                actArray.add(dict)
+                let action = ActionStruct(idAction: 0, idOpportunity: 0, company: "", listName: "", oppName: "", actionName: "", actionDueDisp: "", actionDueRaw: 0, actionStatus: "")
+                
+                action.idAction = Int(acid)
+                action.idOpportunity = Int(acio)
+                action.company = company
+                action.listName = listName
+                action.oppName = oppName
+                action.actionName = actionName
+                action.actionDueDisp = actionDue
+                action.actionStatus = actionStatus
+                
+                actArray.append(action)
             }
         }
         
@@ -156,11 +174,10 @@ class ActionDataModel {
             
             if sqlite3_step(deleteStatement) == SQLITE_DONE {
                 
-                print("Successfully deleted row with idOpp \(id).")
             } else {
-                print("Could not deleted row.")
+                
             } } else {
-            print("INSERT statement could not be prepared.")
+            
         }
         sqlite3_finalize(deleteStatement)
         
@@ -244,22 +261,20 @@ class ActionDataModel {
             }
             sqlite3_finalize(insStatement)
             
-            actArray.removeAllObjects()
+            actArray.removeAll()
             
             if mode == 4 {
-                //Get ball actions
+                //Get all actions
                 getAction()
             } else {
                 getActionForOpp(opp: Int(ido))
             }
-            
-            
-            
+             
         }
         
     }
     
-    func updateAction(action: ActionStruct) {
+    func updateAction(action: ActionStruct, mode: Int) {
         
         var updateStatement: OpaquePointer? = nil
         let ia: Int32 = Int32(action.idAction)
@@ -280,17 +295,23 @@ class ActionDataModel {
             
             if sqlite3_step(updateStatement) == SQLITE_DONE {
                 
-                print("Successfully updated row ")
             } else {
-                print("Could not update row.")
+                
             } } else {
-            print("update statement could not be prepared.")
+            
             
         }
         sqlite3_finalize(updateStatement)
         
-        actArray.removeAllObjects()
-        getAction()
+        actArray.removeAll()
+        
+        if mode == 4 {
+            //Get all actions
+            getAction()
+        } else {
+            getActionForOpp(opp: Int(action.idOpportunity))
+        }
+    
         
     }
     

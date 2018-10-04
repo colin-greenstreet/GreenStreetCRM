@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class ViewController: NSViewController {
     
     //Create an instance of the contact datasource class
     let CDM = ContDataModel.contSharedInstance
@@ -21,37 +21,27 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     
     @IBOutlet weak var opportunityTable: NSTableView!
     
+    @IBOutlet var opportunityAC: NSArrayController!
+    
+    
     //Create an instance of the datasource class
     let ODM = OppDataModel.oppSharedInstance
     
     //Define an array that will have index 0 = mode (1=add, 2=change) and index 1 = the idCompany of the record to be changed (or 0 if in add mode)
     var repObj = [Int]()
     
-    //Call the func no of rows in data source that is required by the NSTableViewDataSource protocol
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return ODM.oppArray.count
-    }
-    
-    //Define the function that will get the data for each cell for each row.
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        
-        //Define constant dict as an NSDictionary and set to the DM instance of the DataModel class at the row being loaded into the table. DM needs to be cast as an NSDictionary. row is passed in as a parameter by the OS
-        let tdict:NSDictionary = ODM.oppArray[row] as! NSDictionary
-        
-        //Define strKey as the column identifier for the column being loaded. Column being loaded is passed in as a parameter by the OS
-        let strKey = (tableColumn?.identifier)!
-        
-        //method will return the value from dict (which is loaded from CDM.compArray) for the key that is equal to the column identifier which was loaded to strKey
-        return tdict.value(forKey: strKey.rawValue)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-        opportunityTable.dataSource = self
-        opportunityTable.delegate = self
+        for opp in ODM.oppArray {
+            
+            self.opportunityAC.addObject(opp)
+        }
+        
+        opportunityTable.sortDescriptors = [NSSortDescriptor(key: "company", ascending: true, selector: #selector(NSString.compare(_:)))]
     }
     
     //Prepare for segue to add or edit opportunity
@@ -77,11 +67,11 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             //If changing a opportunity
             case "chgOpportunity":
                 //Define constant cdict as an NSDictionary and set to the ODM instance of the DataModel class at the row selected in the table. DM needs to be cast as an NSDictionary.
-                let cdict:NSDictionary = ODM.oppArray[opportunityTable.selectedRow] as! NSDictionary
+                let opp:OpportunityStruct = ODM.oppArray[opportunityTable.selectedRow]
                 //Define chgID as the value from cdict for key idOpportunity ie it returns the value of idOpportunity at the row selected
-                let chgID = cdict["idOpportunity"]
+                let chgID = opp.idOpportunity
                 //Set repObj to edit mode and pass idCompany
-                repObj = [2, chgID] as! [Int]
+                repObj = [2, chgID]
                 
                 //Set the destination controller and pass the representedobject as repObj
                 let auxView = segue.destinationController as! AddOpportunityController
@@ -94,11 +84,11 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             case "actionTV":
                 
                 //Define constant cdict as an NSDictionary and set to the ODM instance of the DataModel class at the row selected in the table. DM needs to be cast as an NSDictionary.
-                let cdict:NSDictionary = ODM.oppArray[opportunityTable.selectedRow] as! NSDictionary
+                let opp:OpportunityStruct = ODM.oppArray[opportunityTable.selectedRow]
                 //Define chgID as the value from cdict for key idOpportunity ie it returns the value of idOpportunity at the row selected
-                let oppID = cdict["idOpportunity"]
+                let oppID = opp.idOpportunity
                 //Set repObj to action mode and pass idOpportunity
-                repObj = [3, oppID] as! [Int]
+                repObj = [3, oppID]
                 
                 //Set the destination controller and pass the representedobject as repObj
                 let auxView = segue.destinationController as! ActionTableView
@@ -132,15 +122,15 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     @IBAction func btnDeleteOpportunity(_ sender: Any) {
         
         //Define constant ddict as an NSDictionary and set to the CDM instance of the DataModel class at the row selected in the table. CDM needs to be cast as an NSDictionary.
-        let ddict:NSDictionary = ODM.oppArray[opportunityTable.selectedRow] as! NSDictionary
+        let opp:OpportunityStruct = ODM.oppArray[opportunityTable.selectedRow]
         //Define delID as the value from ddict for key idOpportunity ie it returns the value of idOpportunity at the row selected
-        let delID = ddict["idOpportunity"]
+        let delID = opp.idOpportunity
         
         //Need to check whether actions are attached to opportunity
         
         var ind99 = 2
         
-        ind99 = ODM.checkActions(ic: delID as! Int)
+        ind99 = ODM.checkActions(ic: delID)
         
         if ind99 == 1 {
             
@@ -155,12 +145,13 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         } else {
           
         //Call the delete function on ODM passing in delID as parameter. The delete function will delete the record with this idOpportunity value
-        ODM.deleteRecord(delID as! Int)
+        ODM.deleteRecord(delID)
         //Get the
         let delIndex = opportunityTable.selectedRow
         //Remove record from opArray
-        ODM.oppArray.removeObject(at: delIndex)
+        ODM.oppArray.remove(at: delIndex)
         //Reload the table to refresh after delete
+        self.opportunityAC.remove(atArrangedObjectIndex: delIndex)
         opportunityTable.reloadData()
         }
     }
@@ -212,21 +203,46 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     func addOpportunity(opportunity: OpportunityStruct) {
         ODM.insert(opportunity: opportunity)
         
-        //Reload the table to refresh after add
+        let range : NSRange = NSMakeRange(0, (opportunityAC.arrangedObjects as AnyObject).count)
+        let indexSet : NSIndexSet = NSIndexSet(indexesIn: range)
+        
+        opportunityAC.remove(atArrangedObjectIndexes: indexSet as IndexSet)
+        
+        for opp in ODM.oppArray {
+            
+            self.opportunityAC.addObject(opp)
+        }
+        
         opportunityTable.reloadData()
+        
+        opportunityTable.sortDescriptors = [NSSortDescriptor(key: "company", ascending: true, selector: #selector(NSString.compare(_:)))]
     }
     
     //The update contact function will be called by the popover
     
     func updateOpportunity(opportunity: OpportunityStruct) {
         ODM.updateOpportunity(opportunity: opportunity)
+        
+        
+        let range : NSRange = NSMakeRange(0, (opportunityAC.arrangedObjects as AnyObject).count)
+        let indexSet : NSIndexSet = NSIndexSet(indexesIn: range)
+        
+        opportunityAC.remove(atArrangedObjectIndexes: indexSet as IndexSet)
+        
+        for opp in ODM.oppArray {
+            
+            self.opportunityAC.addObject(opp)
+        }
+        
         opportunityTable.reloadData()
+        
+        opportunityTable.sortDescriptors = [NSSortDescriptor(key: "company", ascending: true, selector: #selector(NSString.compare(_:)))]
         
     }
     
     
     //The get action function will be called by the popover to populate the action tableview when segue from opportunities to do button
-    func getActionForOpp(io: Int) -> NSMutableArray{
+    func getActionForOpp(io: Int) -> Array<ActionStruct>{
         
         ADM.getActionForOpp(opp: io)
         let actArray = ADM.actArray

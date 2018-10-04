@@ -17,10 +17,8 @@ class CompDataModel {
         
         if sqlite3_open(fileURL.path, &db) == SQLITE_OK {
             
-            print("File \(fileURL) opened OK")
         } else {
             
-            print("File \(fileURL) failed to open")
         }
         
         getCompany()
@@ -46,7 +44,7 @@ class CompDataModel {
     
     let chkContacts = "select idcontact from contact where idcompany = ?;"
     
-    var compArray: NSMutableArray = []
+    var compArray: Array<CompanyStruct> = []
     
     var compIndex: Array<String> = []
     
@@ -66,8 +64,12 @@ class CompDataModel {
                 let companyName = String(cString: queryResultCol1!)
                 let queryResultCol2 = sqlite3_column_text(queryStatement, 2)
                 let companyType = String(cString: queryResultCol2!)
-                let dict = ["idCompany": id, "company": companyName, "compType": companyType] as [String : Any]
-                compArray.add(dict)
+                
+                let comp = CompanyStruct(idCompany: 0, company: "", compType: "")
+                comp.idCompany = Int(id)
+                comp.company = companyName
+                comp.compType = companyType
+                compArray.append(comp)
                 compIndex.append(companyName)
             }
             
@@ -90,11 +92,11 @@ class CompDataModel {
             
             if sqlite3_step(deleteStatement) == SQLITE_DONE {
                 
-                print("Successfully deleted row with compani \(id).")
+                
             } else {
-                print("Could not deleted row.")
+                
             } } else {
-            print("INSERT statement could not be prepared.")
+            
         }
         sqlite3_finalize(deleteStatement)
         
@@ -111,9 +113,8 @@ class CompDataModel {
                 nxtIdCompany = idc + 1
                 
             } else {
-                print("No results")
+                
             }
-            
             
         }
         
@@ -139,15 +140,14 @@ class CompDataModel {
             
             if sqlite3_step(insStatement) == SQLITE_DONE {
                 
-                print("Successfully inserted row \(company).")
             } else {
-                print("Could not insert row.")
+                
             } } else {
-            print("INSERT statement could not be prepared.")
+            
         }
         sqlite3_finalize(insStatement)
         
-        compArray.removeAllObjects()
+        compArray.removeAll()
         compIndex.removeAll()
         getCompany()
     }
@@ -157,7 +157,7 @@ class CompDataModel {
     func getSingleCompany(ic: Int) -> CompanyStruct {
         
         var queryStatement: OpaquePointer? = nil
-        var cmp = CompanyStruct.init(idCompany: 0, company: "", compType: "")
+        let cmp = CompanyStruct.init(idCompany: 0, company: "", compType: "")
         
         if sqlite3_prepare_v2(db, getSingleCompany, -1, &queryStatement, nil) == SQLITE_OK {
             
@@ -198,16 +198,15 @@ class CompDataModel {
         
             if sqlite3_step(updateStatement) == SQLITE_DONE {
                 
-                print("Successfully updated row \(company).")
             } else {
-                print("Could not update row.")
+                
             } } else {
-            print("update statement could not be prepared.")
+            
         
         }
         sqlite3_finalize(updateStatement)
         
-        compArray.removeAllObjects()
+        compArray.removeAll()
         compIndex.removeAll()
         getCompany()
     }

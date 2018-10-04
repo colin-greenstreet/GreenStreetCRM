@@ -10,14 +10,23 @@ import AppKit
 
 //Declaring a new struct for Opportunity
 
-public struct OpportunityStruct {
-    var idOpportunity: Int
-    var idContact: Int
-    var idCompany: Int
-    var company: String
-    var listName: String
-    var oppDesc: String
-    var oppStatus: String
+public class OpportunityStruct: NSObject {
+    @objc var idOpportunity: Int
+    @objc var idContact: Int
+    @objc var idCompany: Int
+    @objc var company: String
+    @objc var listName: String
+    @objc var oppDesc: String
+    @objc var oppStatus: String
    
+    init(idOpportunity: Int, idContact: Int, idCompany: Int, company: String, listName: String, oppDesc: String, oppStatus: String) {
+        self.idOpportunity = idOpportunity
+        self.idContact = idContact
+        self.idCompany = idCompany
+        self.company = company
+        self.listName = listName
+        self.oppDesc = oppDesc
+        self.oppStatus = oppStatus
+    }
     
 }

@@ -8,12 +8,12 @@
 
 import Cocoa
 
-class CompanyTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class CompanyTableView: NSViewController {
 
     //Define the company table outlet
-        @IBOutlet weak var companyTable: NSTableView!
-    //Define the search field outlet
-    @IBOutlet weak var schCompanyTV: NSSearchField!
+    @IBOutlet weak var companyTable: NSTableView!
+    //Define the array controller
+    @IBOutlet var companyAC: NSArrayController!
     
     //Create an instance of the datasource class
     let CDM = CompDataModel.compSharedInstance
@@ -21,34 +21,17 @@ class CompanyTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
     //Define an array that will have index 0 = mode (1=add, 2=change) and index 1 = the idCompany of the record to be changed (or 0 if in add mode)
     var repObj = [Int]()
     
-       //Define an array controller for comp.array
-    var compArrayController:NSArrayController = NSArrayController()
-    
-    
-    //Call the func no of rows in data source that is required by the NSTableViewDataSource protocol
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return CDM.compArray.count
-    }
-    
-    //Define the function that will get the data for each cell for each row.
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        
-        //Define constant dict as an NSDictionary and set to the DM instance of the DataModel class at the row being loaded into the table. DM needs to be cast as an NSDictionary. row is passed in as a parameter by the OS
-        let tdict:NSDictionary = CDM.compArray[row] as! NSDictionary
-        
-        //Define strKey as the column identifier for the column being loaded. Column being loaded is passed in as a parameter by the OS
-        let strKey = (tableColumn?.identifier)!
-        
-        //method will return the value from dict (which is loaded from CDM.compArray) for the key that is equal to the column identifier which was loaded to strKey
-        return tdict.value(forKey: strKey.rawValue)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
         
-        companyTable.dataSource = self
-        companyTable.delegate = self
+        for comp in CDM.compArray {
+            
+            self.companyAC.addObject(comp)
+        }
+        
+        companyTable.sortDescriptors = [NSSortDescriptor(key: "company", ascending: true, selector: #selector(NSString.compare(_:)))]
     }
     
        
@@ -75,11 +58,11 @@ class CompanyTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
             //If changing a company
             case "chgCompany":
                 //Define constant cdict as an NSDictionary and set to the CDM instance of the DataModel class at the row selected in the table. DM needs to be cast as an NSDictionary.
-                let cdict:NSDictionary = CDM.compArray[companyTable.selectedRow] as! NSDictionary
+                let comp:CompanyStruct = CDM.compArray[companyTable.selectedRow]
                 //Define chgID as the value from cdict for key idCompany ie it returns the value of idCompany at the row selected
-                let chgID = cdict["idCompany"]
+                let chgID = comp.idCompany
                 //Set repObj to edit mode and pass idCompany
-                repObj = [2, chgID] as! [Int]
+                repObj = [2, chgID]
                 
                 //Set the destination controller and pass the representedobject as repObj
                 let auxView = segue.destinationController as! AddCompanyController
@@ -99,10 +82,21 @@ class CompanyTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         func addRecord(company: CompanyStruct) {
         
         CDM.insert(company: company)
-        
             
-        //Reload the table to refresh after add
-        companyTable.reloadData()
+            let range : NSRange = NSMakeRange(0, (companyAC.arrangedObjects as AnyObject).count)
+            let indexSet : NSIndexSet = NSIndexSet(indexesIn: range)
+            
+            companyAC.remove(atArrangedObjectIndexes: indexSet as IndexSet)
+            
+            for comp in CDM.compArray {
+                
+                self.companyAC.addObject(comp)
+            }
+            
+            companyTable.reloadData()
+            
+            companyTable.sortDescriptors = [NSSortDescriptor(key: "company", ascending: true, selector: #selector(NSString.compare(_:)))]
+            
     }
     
     //The get next primary key that will be called by the popover
@@ -124,7 +118,21 @@ class CompanyTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
     
     func updateCompany(company: CompanyStruct) {
         CDM.updateCompany(company: company)
+        
+        let range : NSRange = NSMakeRange(0, (companyAC.arrangedObjects as AnyObject).count)
+        let indexSet : NSIndexSet = NSIndexSet(indexesIn: range)
+        
+        companyAC.remove(atArrangedObjectIndexes: indexSet as IndexSet)
+        
+        for comp in CDM.compArray {
+            
+            self.companyAC.addObject(comp)
+        }
+        
         companyTable.reloadData()
+        
+        companyTable.sortDescriptors = [NSSortDescriptor(key: "company", ascending: true, selector: #selector(NSString.compare(_:)))]
+        
         
     }
     
@@ -143,15 +151,15 @@ class CompanyTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         
         
         //Define constant ddict as an NSDictionary and set to the CDM instance of the DataModel class at the row selected in the table. CDM needs to be cast as an NSDictionary.
-        let ddict:NSDictionary = CDM.compArray[companyTable.selectedRow] as! NSDictionary
+        let comp:CompanyStruct = CDM.compArray[companyTable.selectedRow]
         //Define delID as the value from ddict for key idCompany ie it returns the value of idCompany at the row selected
-        let delID = ddict["idCompany"]
+        let delID = comp.idCompany
         
         //Need to check whether contacts are attached to company
         
         var ind99 = 2
         
-        ind99 = CDM.checkContacts(ic: delID as! Int)
+        ind99 = CDM.checkContacts(ic: delID)
         
         if ind99 == 1 {
             
@@ -166,11 +174,12 @@ class CompanyTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         } else {
             
             //Call the delete function on CDM passing in delID as parameter. The delete function will delete the record with this idCompany value
-            CDM.deleteRecord(delID as! Int)
+            CDM.deleteRecord(delID)
             //Get the
             let delIndex = companyTable.selectedRow
             //Remove record from compArray
-            CDM.compArray.removeObject(at: delIndex)
+            CDM.compArray.remove(at: delIndex)
+            self.companyAC.remove(atArrangedObjectIndex: delIndex)
             //Reload the table to refresh after delete
             companyTable.reloadData()
             
@@ -178,12 +187,5 @@ class CompanyTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         
     }
     
-    //Sorting the data in the table view need to implement the following method
-    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
-        
-        //Both the array and the table view have "sortDescriptors" which describe the columns and how they are sorted. The sorting request happens in the table and you pass that on to the array:
-        //Note: This won't work until you define sorting parameters on each column in the table view in interface builder or in code.
-        CDM.compArray.sort(using: tableView.sortDescriptors)
-        companyTable.reloadData()
-    }
+    
 }

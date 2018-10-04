@@ -17,10 +17,8 @@ class ContDataModel {
         
         if sqlite3_open(fileURL.path, &db) == SQLITE_OK {
             
-            print("File \(fileURL) opened OK")
         } else {
             
-            print("File \(fileURL) failed to open")
         }
         
         getContact()
@@ -50,7 +48,7 @@ class ContDataModel {
 
     let chkOpps = "select idopportunity from opportunity where idcontact = ?;"
     
-    var contArray: NSMutableArray = []
+    var contArray: Array<ContactStruct> = []
     
     var contIndex: Array<String> = []
     
@@ -68,7 +66,6 @@ class ContDataModel {
                 nxtIdContact = idc + 1
                 
             }
-            
             
         }
         
@@ -98,8 +95,16 @@ class ContDataModel {
                 let mobile = String(cString: queryResultCol5!)
                 
                 
-                let dict = ["idContact": ctid, "company": company, "listName": listName, "email": email, "directDial": dd, "mobile": mobile] as [String : Any]
-                contArray.add(dict)
+                let cont = ContactStruct(idContact: 0, idCompany: 0, company: "", firstName: "", lastName: "", listName: "", email: "", DD: "", mobile: "")
+                
+                cont.idContact = Int(ctid)
+                cont.company = company
+                cont.listName = listName
+                cont.email = email
+                cont.DD = dd
+                cont.mobile = mobile
+                
+                contArray.append(cont)
                 contIndex.append(listName)
             } 
         }
@@ -120,12 +125,11 @@ class ContDataModel {
             
             
             if sqlite3_step(deleteStatement) == SQLITE_DONE {
-                
-                print("Successfully deleted row with contactid \(id).")
+              
             } else {
-                print("Could not deleted row.")
+                
             } } else {
-            print("INSERT statement could not be prepared.")
+            
         }
         sqlite3_finalize(deleteStatement)
         }
@@ -135,7 +139,7 @@ class ContDataModel {
     func getSingleContact(ic: Int) -> ContactStruct {
         
         var queryStatement: OpaquePointer? = nil
-        var con = ContactStruct.init(idContact: 0, idCompany: 0, company: "", firstName: "", lastName: "", listName: "", email: "", DD: "", mobile: "")
+        let con = ContactStruct.init(idContact: 0, idCompany: 0, company: "", firstName: "", lastName: "", listName: "", email: "", DD: "", mobile: "")
         
         if sqlite3_prepare_v2(db, getSingleContact, -1, &queryStatement, nil) == SQLITE_OK {
             
@@ -210,8 +214,8 @@ class ContDataModel {
         }
         sqlite3_finalize(insStatement)
         
-        contArray.removeAllObjects()
-            contIndex.removeAll()
+        contArray.removeAll()
+        contIndex.removeAll()
         getContact()
             
         }
@@ -243,18 +247,19 @@ class ContDataModel {
             
             if sqlite3_step(updateStatement) == SQLITE_DONE {
                 
-                print("Successfully updated row ")
             } else {
-                print("Could not update row.")
+                
             } } else {
-            print("update statement could not be prepared.")
+            
             
         }
         sqlite3_finalize(updateStatement)
         
-        contArray.removeAllObjects()
+        contArray.removeAll()
         contIndex.removeAll()
-        getContact()    }
+        getContact()
+        
+    }
     
     
     func getPrimaryKey(listName: String) -> Int {
@@ -270,8 +275,7 @@ class ContDataModel {
             if sqlite3_step(queryStatement) == SQLITE_ROW {
                 
                 idcn = Int(sqlite3_column_int(queryStatement, 0))
-                
-                
+               
             }
         }
         

@@ -8,10 +8,13 @@
 
 import Cocoa
 
-class ContactTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class ContactTableView: NSViewController {
     
-    
+    //Define the contact tableview
     @IBOutlet weak var contactTable: NSTableView!
+    //define the arraycontroller
+    @IBOutlet var contactAC: NSArrayController!
+    
     
     //Create an instance of the contact datasource class
     let CDM = ContDataModel.contSharedInstance
@@ -23,31 +26,19 @@ class ContactTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
     var repObj = [Int]()
     var company = ""
     
-    //Call the func no of rows in data source that is required by the NSTableViewDataSource protocol
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return CDM.contArray.count
-    }
     
-    //Define the function that will get the data for each cell for each row.
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        
-        //Define constant dict as an NSDictionary and set to the DM instance of the DataModel class at the row being loaded into the table. DM needs to be cast as an NSDictionary. row is passed in as a parameter by the OS
-        let tdict:NSDictionary = CDM.contArray[row] as! NSDictionary
-        
-        //Define strKey as the column identifier for the column being loaded. Column being loaded is passed in as a parameter by the OS
-        let strKey = (tableColumn?.identifier)!
-        
-        //method will return the value from dict (which is loaded from CDM.compArray) for the key that is equal to the column identifier which was loaded to strKey
-        return tdict.value(forKey: strKey.rawValue)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
         
+        for cont in CDM.contArray {
+            
+            self.contactAC.addObject(cont)
+        }
         
-        contactTable.dataSource = self
-        contactTable.delegate = self
+        contactTable.sortDescriptors = [NSSortDescriptor(key: "listName", ascending: true, selector: #selector(NSString.compare(_:)))]
+        
     }
     
     //Prepare for segue to add or edit company
@@ -73,11 +64,11 @@ class ContactTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
             //If changing a company
             case "chgContact":
                 //Define constant cdict as an NSDictionary and set to the CDM instance of the DataModel class at the row selected in the table. DM needs to be cast as an NSDictionary.
-                let cdict:NSDictionary = CDM.contArray[contactTable.selectedRow] as! NSDictionary
+                let cont:ContactStruct = CDM.contArray[contactTable.selectedRow]
                 //Define chgID as the value from cdict for key idCompany ie it returns the value of idCompany at the row selected
-                let chgID = cdict["idContact"]
+                let chgID = cont.idContact
                 //Set repObj to edit mode and pass idCompany
-                repObj = [2, chgID] as! [Int]
+                repObj = [2, chgID] 
                 
                 //Set the destination controller and pass the representedobject as repObj
                 let auxView = segue.destinationController as! AddContactController
@@ -103,15 +94,15 @@ class ContactTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
     @IBAction func btnDeleteContact(_ sender: Any) {
         
         //Define constant ddict as an NSDictionary and set to the CDM instance of the DataModel class at the row selected in the table. CDM needs to be cast as an NSDictionary.
-        let ddict:NSDictionary = CDM.contArray[contactTable.selectedRow] as! NSDictionary
+        let cont:ContactStruct = CDM.contArray[contactTable.selectedRow]
         //Define delID as the value from ddict for key idCompany ie it returns the value of idCompany at the row selected
-        let delID = ddict["idContact"]
+        let delID = cont.idContact
         
         //Need to check whether opportunities are attached to contact
         
         var ind99 = 2
         
-        ind99 = CDM.checkOpportunities(ic: delID as! Int)
+        ind99 = CDM.checkOpportunities(ic: delID)
         
         if ind99 == 1 {
             
@@ -127,25 +118,18 @@ class ContactTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         
         
         //Call the delete function on CDM passing in delID as parameter. The delete function will delete the record with this idCotact value
-        CDM.deleteRecord(delID as! Int)
+        CDM.deleteRecord(delID)
         //Get the
         let delIndex = contactTable.selectedRow
         //Remove record from compArray
-        CDM.contArray.removeObject(at: delIndex)
+        CDM.contArray.remove(at: delIndex)
         //Reload the table to refresh after delete
+        self.contactAC.remove(atArrangedObjectIndex: delIndex)
         contactTable.reloadData()
         }
     }
     
-    //Sorting the data in the table view need to implement the following method
-    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
         
-        //Both the array and the table view have "sortDescriptors" which describe the columns and how they are sorted. The sorting request happens in the table and you pass that on to the array:
-        //Note: This won't work until you define sorting parameters on each column in the table view in interface builder or in code.
-        CDM.contArray.sort(using: tableView.sortDescriptors)
-        contactTable.reloadData()
-    }
-    
     //The get singlecompany function will be called by the popover to populate the fields ready for edit
     func getSingleContact(ic: Int) -> ContactStruct {
         
@@ -174,8 +158,19 @@ class ContactTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
     func addContact(contact: ContactStruct) {
         CDM.insert(contact: contact)
         
-        //Reload the table to refresh after add
+        let range : NSRange = NSMakeRange(0, (contactAC.arrangedObjects as AnyObject).count)
+        let indexSet : NSIndexSet = NSIndexSet(indexesIn: range)
+        
+        contactAC.remove(atArrangedObjectIndexes: indexSet as IndexSet)
+        
+        for cont in CDM.contArray {
+            
+            self.contactAC.addObject(cont)
+        }
+        
         contactTable.reloadData()
+        
+        contactTable.sortDescriptors = [NSSortDescriptor(key: "listName", ascending: true, selector: #selector(NSString.compare(_:)))]
     }
     
     //The get next primary key that will be called by the popover
@@ -189,7 +184,20 @@ class ContactTableView: NSViewController, NSTableViewDelegate, NSTableViewDataSo
     
     func updateContact(contact: ContactStruct) {
         CDM.updateContact(contact: contact)
+        
+        let range : NSRange = NSMakeRange(0, (contactAC.arrangedObjects as AnyObject).count)
+        let indexSet : NSIndexSet = NSIndexSet(indexesIn: range)
+        
+        contactAC.remove(atArrangedObjectIndexes: indexSet as IndexSet)
+        
+        for cont in CDM.contArray {
+            
+            self.contactAC.addObject(cont)
+        }
+        
         contactTable.reloadData()
+        
+        contactTable.sortDescriptors = [NSSortDescriptor(key: "listName", ascending: true, selector: #selector(NSString.compare(_:)))]
         
     }
     

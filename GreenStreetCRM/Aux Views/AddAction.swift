@@ -17,7 +17,7 @@ class AddAction: NSViewController, NSComboBoxDataSource, NSComboBoxDelegate {
     
     @IBOutlet weak var dpActionDue: NSDatePicker!
     
-    @IBOutlet weak var cmbActionStatus: NSComboBox!
+    @IBOutlet weak var chkActionStatus: NSButton!
     
     @IBOutlet weak var lblActionDueString: NSTextField!
     
@@ -35,6 +35,8 @@ class AddAction: NSViewController, NSComboBoxDataSource, NSComboBoxDelegate {
     
     var oppIndex: Array<String> = []
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
@@ -45,6 +47,8 @@ class AddAction: NSViewController, NSComboBoxDataSource, NSComboBoxDelegate {
         
         //Populate the array for loading to combobox
         oppIndex = (delegate as! ActionTableView).getOpportunity()
+        
+        
     }
     
     func numberOfItems(in comboBox: NSComboBox) -> Int {
@@ -67,12 +71,22 @@ class AddAction: NSViewController, NSComboBoxDataSource, NSComboBoxDelegate {
    
     override func viewWillAppear() {
         
+        
         //Test on repObj index 0 which is the mode
         switch repObj[0] {
             
         //Case 1 is add datePicker already initialised to today in view did load
         case 1:
             dpActionDue.dateValue = Date()
+            
+            chkActionStatus.state = NSControl.StateValue.off
+            
+            if repObj[3] == 3 {
+                
+                let opp = (delegate as! ActionTableView).getSingleOpportunity(io: repObj[2])
+                cmbOpportunity.isSelectable = false
+                cmbOpportunity.stringValue = opp.oppDesc
+            }
             
         //case 2 is edit
         case 2:
@@ -83,10 +97,18 @@ class AddAction: NSViewController, NSComboBoxDataSource, NSComboBoxDelegate {
             cmbOpportunity.isSelectable = false
             cmbOpportunity.stringValue = action.oppName
             txtActionName.stringValue = action.actionName
-            cmbActionStatus.stringValue = action.actionStatus
             lblActionDueString.stringValue = action.actionDueDisp
             dpActionDue.dateValue = Date(timeIntervalSinceReferenceDate: action.actionDueRaw)
             
+            if action.actionStatus == "To Do" {
+                
+                chkActionStatus.state = NSControl.StateValue.off
+                
+            } else {
+                
+                chkActionStatus.state = NSControl.StateValue.on
+                
+            }
             
         //Default is do nothing
         default:
@@ -96,6 +118,17 @@ class AddAction: NSViewController, NSComboBoxDataSource, NSComboBoxDelegate {
     
     
     @IBAction func btnAddAction(_ sender: Any) {
+        
+        //Set value of actionStatus based on checkBox
+        var actS = ""
+        if chkActionStatus.state == NSControl.StateValue.off {
+            
+            actS = "To Do"
+            
+        } else {
+            
+            actS = "Done"
+        }
         
         //Test on repObj index 0 which is the mode
         switch repObj[0] {
@@ -111,7 +144,7 @@ class AddAction: NSViewController, NSComboBoxDataSource, NSComboBoxDelegate {
             
             
             //initialise the action struct to be passed into insert function
-            let act = ActionStruct(idAction: ia, idOpportunity: ido, company: "", listName: "", oppName: "", actionName: txtActionName.stringValue, actionDueDisp: lblActionDueString.stringValue, actionDueRaw: dpActionDue.dateValue.timeIntervalSinceReferenceDate, actionStatus: cmbActionStatus.stringValue)
+            let act = ActionStruct(idAction: ia, idOpportunity: ido, company: "", listName: "", oppName: "", actionName: txtActionName.stringValue, actionDueDisp: lblActionDueString.stringValue, actionDueRaw: dpActionDue.dateValue.timeIntervalSinceReferenceDate, actionStatus: actS)
             
             (delegate as! ActionTableView).addRecord(action: act, mode: repObj[3])
             
@@ -122,8 +155,8 @@ class AddAction: NSViewController, NSComboBoxDataSource, NSComboBoxDelegate {
         //case 2 is edit
         case 2:
             
-            let act = ActionStruct(idAction: repObj[1], idOpportunity: repObj[2], company: "", listName: "", oppName: "", actionName: txtActionName.stringValue, actionDueDisp: lblActionDueString.stringValue, actionDueRaw: dpActionDue.dateValue.timeIntervalSinceReferenceDate, actionStatus: cmbActionStatus.stringValue)
-            (delegate as! ActionTableView).updateAction(action: act)
+            let act = ActionStruct(idAction: repObj[1], idOpportunity: repObj[2], company: "", listName: "", oppName: "", actionName: txtActionName.stringValue, actionDueDisp: lblActionDueString.stringValue, actionDueRaw: dpActionDue.dateValue.timeIntervalSinceReferenceDate, actionStatus: actS)
+            (delegate as! ActionTableView).updateAction(action: act, mode: repObj[3])
             
             dismiss(self)
             

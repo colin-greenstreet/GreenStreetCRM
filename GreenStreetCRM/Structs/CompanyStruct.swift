@@ -8,14 +8,18 @@
 
 import AppKit
 
-//Declaring a new struct for Company
+//Declaring a new class for Company
 
-public struct CompanyStruct {
-    var idCompany: Int
-    var company: String
-    var compType: String
+public class CompanyStruct: NSObject {
+    @objc var idCompany: Int
+    @objc var company: String
+    @objc var compType: String
     
-    
+    init(idCompany: Int, company: String, compType: String) {
+        self.idCompany = idCompany
+        self.company = company
+        self.compType = compType
+    }
 }
 
 

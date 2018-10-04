@@ -37,7 +37,7 @@ class OppDataModel {
     
     let chkActions = "select idaction from action where idaction = ?;"
     
-    var oppArray: NSMutableArray = []
+    var oppArray: Array<OpportunityStruct> = []
     
     var oppIndex: Array<String> = []
     
@@ -49,10 +49,8 @@ class OppDataModel {
         
         if sqlite3_open(fileURL.path, &db) == SQLITE_OK {
             
-            print("File \(fileURL) opened OK")
         } else {
             
-            print("File \(fileURL) failed to open")
         }
         
         getOpportunity()
@@ -93,9 +91,15 @@ class OppDataModel {
                 let queryResultCol4 = sqlite3_column_text(queryStatement, 4)
                 let oppStatus = String(cString: queryResultCol4!)
                 
+                let opp = OpportunityStruct(idOpportunity: 0, idContact: 0, idCompany: 0, company: "", listName: "", oppDesc: "", oppStatus: "")
                 
-                let dict = ["idOpportunity": opid, "opCompany": company, "opContact": listName, "opDescription": oppName, "opStatus": oppStatus] as [String : Any]
-                oppArray.add(dict)
+                opp.idOpportunity = Int(opid)
+                opp.company = company
+                opp.listName = listName
+                opp.oppDesc = oppName
+                opp.oppStatus = oppStatus
+                
+                oppArray.append(opp)
                 oppIndex.append(oppName)
             }
         }
@@ -117,11 +121,10 @@ class OppDataModel {
             
             if sqlite3_step(deleteStatement) == SQLITE_DONE {
                 
-                print("Successfully deleted row with idOpp \(id).")
             } else {
-                print("Could not deleted row.")
+                
             } } else {
-            print("INSERT statement could not be prepared.")
+            
         }
         sqlite3_finalize(deleteStatement)
         
@@ -133,7 +136,7 @@ class OppDataModel {
     func getSingleOpportunity(io: Int) -> OpportunityStruct {
         
         var queryStatement: OpaquePointer? = nil
-        var opp = OpportunityStruct.init(idOpportunity: 0, idContact: 0, idCompany: 0, company: "", listName: "", oppDesc: "", oppStatus: "")
+        let opp = OpportunityStruct.init(idOpportunity: 0, idContact: 0, idCompany: 0, company: "", listName: "", oppDesc: "", oppStatus: "")
         
         if sqlite3_prepare_v2(db, getSingleOpp, -1, &queryStatement, nil) == SQLITE_OK {
             
@@ -193,7 +196,8 @@ class OppDataModel {
             }
             sqlite3_finalize(insStatement)
             
-            oppArray.removeAllObjects()
+            oppArray.removeAll()
+            oppIndex.removeAll()
             getOpportunity()
             
         }
@@ -221,16 +225,15 @@ class OppDataModel {
             
             if sqlite3_step(updateStatement) == SQLITE_DONE {
                 
-                print("Successfully updated row ")
             } else {
-                print("Could not update row.")
+                
             } } else {
-            print("update statement could not be prepared.")
             
         }
         sqlite3_finalize(updateStatement)
         
-        oppArray.removeAllObjects()
+        oppArray.removeAll()
+        oppIndex.removeAll()
         getOpportunity()
         
         
