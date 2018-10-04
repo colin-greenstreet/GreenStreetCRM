@@ -155,6 +155,15 @@ class ActionDataModel {
                 
                 actArray.append(action)
             }
+
+            //Need to check whether query returned any records. If not then need to return an empty ActionStruct
+            if actArray.isEmpty {
+                
+                let action = ActionStruct(idAction: 0, idOpportunity: 0, company: "", listName: "", oppName: "", actionName: "", actionDueDisp: "", actionDueRaw: 0, actionStatus: "")
+                actArray.append(action)
+            }
+            
+            
         }
         
         sqlite3_finalize(queryStatement)
@@ -188,7 +197,7 @@ class ActionDataModel {
     func getSingleAction(ia: Int) -> ActionStruct {
         
         var queryStatement: OpaquePointer? = nil
-        var act = ActionStruct.init(idAction: 0, idOpportunity: 0, company: "", listName: "", oppName: "", actionName: "", actionDueDisp: "", actionDueRaw: 0, actionStatus: "")
+        let act = ActionStruct.init(idAction: 0, idOpportunity: 0, company: "", listName: "", oppName: "", actionName: "", actionDueDisp: "", actionDueRaw: 0, actionStatus: "")
         
         if sqlite3_prepare_v2(db, getSingleAction, -1, &queryStatement, nil) == SQLITE_OK {
             

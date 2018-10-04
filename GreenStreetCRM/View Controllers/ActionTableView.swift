@@ -80,16 +80,30 @@ class ActionTableView: NSViewController {
             
             actionTable.reloadData()
             
-            //actionTable.sortDescriptors = [NSSortDescriptor(key: "actionDueRaw", ascending: true, selector: #selector(NSString.compare(_:)))]
+            actionTable.sortDescriptors = [NSSortDescriptor(key: "actionDueRaw", ascending: true, selector: #selector(NSString.compare(_:)))]
             
             
             actionTable.sortDescriptors = [NSSortDescriptor(key: "actionDueRaw", ascending: true, selector: #selector(NSString.compare(_:))), NSSortDescriptor(key: "company", ascending: true, selector: #selector(NSString.compare(_:)))]
             
             //Define constant ddict as an NSDictionary and set to the ADM instance of the DataModel class at the row selected in the table. ADM needs to be cast as an NSDictionary.
             let act:ActionStruct = ADM.actArray[0]
-            //Define oppName as the value from act for key oppName ie it returns the value of idCompany at the row selected
-            let oppName = act.oppName
-            oppLabel.stringValue = "Showing: \(oppName)"
+            
+            if act.idAction != 0 {
+                
+                //Define oppName as the value from act for key oppName ie it returns the value of idCompany at the row selected
+                let oppName = act.oppName
+                oppLabel.stringValue = "Showing: \(oppName)"
+                
+            } else {
+                
+                //The Opportunity does not yet have any actions so need to get the Opportunity record in order to load name into header
+                let opp: OpportunityStruct = getSingleOpportunity(io: repObj[1])
+                let oppName = opp.oppDesc
+                oppLabel.stringValue = "Showing: \(oppName)"
+                
+            }
+            
+            
             
         //Default is that view was called from menu and therefore all actions should be shown
         default:
