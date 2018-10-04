@@ -121,13 +121,12 @@ class ViewController: NSViewController {
     
     @IBAction func btnDeleteOpportunity(_ sender: Any) {
         
-        //Define constant ddict as an NSDictionary and set to the CDM instance of the DataModel class at the row selected in the table. CDM needs to be cast as an NSDictionary.
+        //Define  opp as an OpportunityStruct and set to the ODM instance of the DataModel class at the row selected in the table.
         let opp:OpportunityStruct = ODM.oppArray[opportunityTable.selectedRow]
-        //Define delID as the value from ddict for key idOpportunity ie it returns the value of idOpportunity at the row selected
+        //Define delID as the value from opp for  idOpportunity ie it returns the value of idOpportunity at the row selected
         let delID = opp.idOpportunity
         
         //Need to check whether actions are attached to opportunity
-        
         var ind99 = 2
         
         ind99 = ODM.checkActions(ic: delID)

@@ -35,7 +35,7 @@ class OppDataModel {
     
     let updateString = "update opportunity set idcompany = ?, idcontact = ?, oppname = ?, oppstatus = ? where idopportunity = ?;"
     
-    let chkActions = "select idaction from action where idaction = ?;"
+    let chkActions = "select idaction from action where idopportunity = ?;"
     
     var oppArray: Array<OpportunityStruct> = []
     
